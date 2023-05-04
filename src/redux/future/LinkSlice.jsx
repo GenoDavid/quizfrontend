@@ -1,14 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const initialState = import.meta.env.VITE_LINK
+const initialState = {
+    links: import.meta.env.VITE_APP_LINK
+}
 
 const linkslice = createSlice({
-    name: link,
+    name: "link",
     initialState,
     reducers: {
 
     }
 })
 
-export default linkslice
+export default linkslice.reducer
