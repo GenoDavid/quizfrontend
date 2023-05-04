@@ -31,7 +31,7 @@ const Home = () => {
                     return (
                         <div>
 
-                            <div onClick={() => {
+                            <div className={classes.heading} onClick={() => {
                                 navi(`question/${value._id}`)
                             }}>
                                 {value.topic}

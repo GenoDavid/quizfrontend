@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import classes from './Question.module.css'
 
 const Questions = () => {
 
@@ -76,7 +77,7 @@ const Questions = () => {
     const addbutton = () => {
         setSelect(null)
         setFinish((pre) => {
-            answer ? {
+            return answer ? {
                 ...pre,
                 score: pre.score + 1,
                 correctanswer: pre.correctanswer + 1,
@@ -94,9 +95,25 @@ const Questions = () => {
         }
         console.log(setShowresult);
     }
+    const sub = () => {
+        setSelect(null)
+        setFinish((pre) => {
+            return answer ? {
+                ...pre,
+                score: pre.score + 1,
+                correctanswer: pre.correctanswer + 1,
+            } : {
+                ...pre,
+                wronganswer: pre.wronganswer + 1
+            }
+        })
+        setShowresult(true)
+    }
+
+    const addLeadingZero = (number) => (number > 9 ? number : `0${number}`)
 
     return (
-        <div>
+        <div className={classes.quizcontainer}>
             {
                 !showresult ? (
                     <div>
@@ -106,13 +123,19 @@ const Questions = () => {
                 )
             })} */}
                         {/* <h1>{question}</h1> */}
+                        <span className={classes.activequestionno}>
+                            {addLeadingZero(activeno + 1)}
+                        </span>
+                        <span className={classes.totalquestion}>
+                            /{addLeadingZero(find.questions?.length)}
+                        </span>
                         <h1>Quiz</h1>
                         <h1>{question}</h1>
                         <ul>
                             {
                                 choose?.map((items, key) => {
                                     return (
-                                        <li className={select == key ? 'active' : null} onClick={() => selectanswer(items, key)} key={key}>{items}</li>
+                                        <li className={select == key ? classes.active : null} onClick={() => selectanswer(items, key)} key={key}>{items}</li>
                                     )
                                 })
                             }
@@ -121,13 +144,15 @@ const Questions = () => {
                         {/* {
                 activeno === (find.questions?.length == 0) ? <button onClick={() => setActiveno(activeno - 1)}>Back</button> : null
             } */}
-                        {
-                            activeno == (find.questions?.length > 1) ? <button onClick={() => setActiveno(activeno - 1)}>Back</button> : null
-                        }
+                        <div className={classes.flexright}>
+                            {
+                                activeno >= 1 ? <button onClick={() => setActiveno(activeno - 1)}>Back</button> : null
+                            }
 
-                        {
-                            activeno === (find.questions?.length - 1) ? <button onClick={() => setShowresult(true)}>Finish</button> : <button onClick={() => addbutton()}>Next</button>
-                        }
+                            {
+                                activeno === (find.questions?.length - 1) ? <button onClick={() => sub()}>Finish</button> : <button onClick={() => addbutton()}>Next</button>
+                            }
+                        </div>
                         {/* <button onClick={() => addbutton()}>
                             {
                                 activeno === (find.questions?.length - 1) ? 'finish' : 'Next'
@@ -135,9 +160,23 @@ const Questions = () => {
                         </button> */}
                     </div>
                 ) :
-                    (<div>
-                        <h1>result</h1>
-                    </div>)
+                    (
+                        <div className={classes.result}>
+                            <h3>Result</h3>
+                            <p>
+                                Total Question: <span>{find.questions.length}</span>
+                            </p>
+                            <p>
+                                Total Score:<span> {finish.score}</span>
+                            </p>
+                            <p>
+                                Correct Answers:<span> {finish.correctanswer}</span>
+                            </p>
+                            <p>
+                                Wrong Answers:<span> {finish.wronganswer}</span>
+                            </p>
+                        </div>
+                    )
             }
         </div>
     )
