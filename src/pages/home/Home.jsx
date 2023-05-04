@@ -20,9 +20,6 @@ const Home = () => {
         console.log(getdata);
         setData(getdata.data)
     }
-    // const handleclick = (id) => {
-    //     navi(`question/${id}`)
-    // }
 
     return (
         <div>

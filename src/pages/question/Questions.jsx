@@ -7,34 +7,7 @@ import classes from './Question.module.css'
 const Questions = () => {
 
     const { links } = useSelector(state => state.link)
-    // console.log(links);
-    const navi = useNavigate()
     const param = useParams()
-
-    // const [data, setData] = useState([])
-    // const [find, setFind] = useState({})
-
-    // useEffect(() => {
-    //     question()
-    //     filtervalues()
-    // }, [find])
-
-    // const question = async () => {
-    //     const getdata = await axios.get(`${links}/admin/get`)
-    //     // console.log(getdata);
-    //     setData(getdata.data)
-    //     // const finddata = data.find(value => value._id == param.id)
-    //     // setFind(finddata)
-    //     // console.log(finddata);
-    // }
-
-    // const filtervalues = () => {
-    //     const finddata = data.find(value => value._id == param.id)
-    //     setFind(finddata)
-    //     console.log(finddata);
-    // }
-    // console.log(find);
-
     const [activeno, setActiveno] = useState(0)
     const [find, setFind] = useState({})
     const [showresult, setShowresult] = useState(false)
@@ -53,15 +26,10 @@ const Questions = () => {
 
     const ques = async () => {
         const getdata = await axios.get(`${links}/admin/get`)
-        // setData(getdata.data)
         const finddata = getdata.data.find(value => value._id == param.id)
         setFind(finddata)
         console.log(finddata);
     }
-    console.log(find.questions);
-
-    // const { question } = find.questions && find.questions[0]
-    // const { questions } = quizs
     const { question, choose, correctanswer } = find.questions?.[activeno] || {}
     console.log(question);
     const selectanswer = (items, key) => {
@@ -117,12 +85,6 @@ const Questions = () => {
             {
                 !showresult ? (
                     <div>
-                        {/* {find.questions && find.questions.map((values, key) => {
-                return (
-                    <h1 key={key}>{values.question}</h1>
-                )
-            })} */}
-                        {/* <h1>{question}</h1> */}
                         <span className={classes.activequestionno}>
                             {addLeadingZero(activeno + 1)}
                         </span>
@@ -141,9 +103,6 @@ const Questions = () => {
                             }
                         </ul>
 
-                        {/* {
-                activeno === (find.questions?.length == 0) ? <button onClick={() => setActiveno(activeno - 1)}>Back</button> : null
-            } */}
                         <div className={classes.flexright}>
                             {
                                 activeno >= 1 ? <button onClick={() => setActiveno(activeno - 1)}>Back</button> : null
@@ -153,11 +112,6 @@ const Questions = () => {
                                 activeno === (find.questions?.length - 1) ? <button onClick={() => sub()}>Finish</button> : <button onClick={() => addbutton()}>Next</button>
                             }
                         </div>
-                        {/* <button onClick={() => addbutton()}>
-                            {
-                                activeno === (find.questions?.length - 1) ? 'finish' : 'Next'
-                            }
-                        </button> */}
                     </div>
                 ) :
                     (
